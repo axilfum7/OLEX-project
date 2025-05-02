@@ -123,22 +123,51 @@ model order {
   product   product  @relation(fields: [productId], references: [id])
 }
 
+// model chat {
+//   id        Int      @id @default(autoincrement())
+//   toId      Int
+//   fromId    Int
+//   userId    Int?
+//   chatId    Int
+//   text      String
+//   from      user     @relation("fromMessage", fields: [fromId], references: [id])
+//   to        user     @relation("toMessage", fields: [toId], references: [id])
+//   createdAt DateTime @default(now())
+// }
+
+// model MessageChat {
+//   id        Int      @id @default(autoincrement())
+//   toId      Int
+//   fromId    Int
+//   userId    Int?
+//   text      String
+//   from      user     @relation("fromMessage", fields: [fromId], references: [id])
+//   to        user     @relation("toMessage", fields: [toId], references: [id])
+//   createdAt DateTime @default(now())
+// }
+
+
+
+
 model chat {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   toId      Int
   fromId    Int
-  createdAt DateTime @default(now())
-  from      user     @relation("fromChat", fields: [fromId], references: [id])
-  to        user     @relation("toChat", fields: [toId], references: [id])
+  createdAt DateTime  @default(now())
+  from      user      @relation("fromChat", fields: [fromId], references: [id])
+  to        user      @relation("toChat", fields: [toId], references: [id])
+  messages  message[] 
 }
 
 model message {
   id        Int      @id @default(autoincrement())
   toId      Int
   fromId    Int
-  userId    Int?
+  chatId    Int
+  text      String
   from      user     @relation("fromMessage", fields: [fromId], references: [id])
   to        user     @relation("toMessage", fields: [toId], references: [id])
+  chat      chat     @relation(fields: [chatId], references: [id])
   createdAt DateTime @default(now())
 }
 
