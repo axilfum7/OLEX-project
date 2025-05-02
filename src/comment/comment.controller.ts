@@ -1,70 +1,74 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { Request } from 'express';
-import { ApiQuery } from '@nestjs/swagger';
-import { Roles } from 'src/user/decorators/role.decorator';
-import { UserRole } from '@prisma/client';
-import { RoleGuard } from 'src/guard/role.guard';
-import { AuthGuard } from 'src/guard/auth.guard';
+import { Request as ExpressRequest } from 'express';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
+@ApiTags('comments')
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Roles(UserRole.ADMIN,UserRole.USER,UserRole.SUPERADMIN)
-  @UseGuards(RoleGuard)
-  @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto, @Req() req: Request) {
-    return this.commentService.create(createCommentDto,req);
+  @ApiOperation({ summary: 'Create a comment' })
+  @ApiBody({ type: CreateCommentDto })
+  @ApiResponse({ status: 201, description: 'Comment created successfully' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 404, description: 'Product not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  create(
+    @Body() createCommentDto: CreateCommentDto,
+    @Request() req: ExpressRequest,
+  ) {
+    return this.commentService.create(createCommentDto, req);
   }
 
   @Get()
-  @ApiQuery({
-    example: 1,
-    name: 'page',
-  })
-  @ApiQuery({
-    example: 10,
-    name: 'limit',
-  })
-  @ApiQuery({
-    name: 'productId',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'userId',
-    required: false,
-  })
-  findAll(
-    @Query('page') page: number,
-    @Query('limit') limit: number,
-    @Query('productId') productId: string,
-    @Query('userId') userId: string,
-  ) {
-    return this.commentService.findAll(Number(page),Number(limit),userId,productId);
+  @ApiOperation({ summary: 'Get all comments' })
+  @ApiResponse({ status: 200, description: 'Comments fetched successfully' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  findAll() {
+    return this.commentService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get a single comment by ID' })
+  @ApiResponse({ status: 200, description: 'Comment fetched successfully' })
+  @ApiResponse({ status: 404, description: 'Comment not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
   findOne(@Param('id') id: string) {
-    return this.commentService.findOne(id);
+    return this.commentService.findOne(+id);
   }
 
-  @Roles(UserRole.ADMIN,UserRole.USER,UserRole.SUPERADMIN)
-  @UseGuards(RoleGuard)
-  @UseGuards(AuthGuard)
   @Patch(':id')
+  @ApiOperation({ summary: 'Update a comment by ID' })
+  @ApiBody({ type: UpdateCommentDto })
+  @ApiResponse({ status: 200, description: 'Comment updated successfully' })
+  @ApiResponse({ status: 404, description: 'Comment not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
   update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentService.update(id, updateCommentDto);
+    return this.commentService.update(+id, updateCommentDto);
   }
 
-  @Roles(UserRole.ADMIN,UserRole.USER,UserRole.SUPERADMIN)
-  @UseGuards(RoleGuard)
-  @UseGuards(AuthGuard)
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a comment by ID' })
+  @ApiResponse({ status: 200, description: 'Comment deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Comment not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
   remove(@Param('id') id: string) {
-    return this.commentService.remove(id);
+    return this.commentService.remove(+id);
   }
 }

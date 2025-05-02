@@ -45,7 +45,7 @@ export class CategoryController {
         },
         type: {
           type: 'string',
-          enum: ['phones', 'laptops', 'accessories'],
+          enum: ['bag', 'laptops', 'accessories'],
           description: 'The type of the category',
           example: 'phones',
         },

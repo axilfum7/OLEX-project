@@ -81,7 +81,7 @@ export class MessageService {
       console.error('Error retrieving messages:', error);
       return {
         success: false,
-        error: 'Failed to fetch messages so Please try again later.',
+        error: 'Failed to fetch messages. Please try again later.',
       };
     }
   }
