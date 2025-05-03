@@ -73,7 +73,7 @@ export class UserController {
       type: 'object',
       properties: {
         otp: { type: 'string', example: 123456 },
-        email: { type: 'string', example: 'alex@gmail.com' },
+        email: { type: 'string', example: 'axilfum@gmail.com' },
       },
     },
   })
@@ -96,7 +96,7 @@ export class UserController {
     schema: {                   
       type: 'object',
       properties: {
-        email: { type: 'string', example: 'alex@gmail.com' },
+        email: { type: 'string', example: 'axilfum@gmail.com' },
         password: { type: 'string', example: 'StrongPassword_1' },
       },
     },

@@ -10,7 +10,7 @@ import { MailModule } from 'src/mail/mail.module';
     PrismaModule,
     MailModule,
     JwtModule.register({
-      secret: 'shop',
+      secret: 'olx',
       signOptions: { expiresIn: '1h' },
       global: true
     }),

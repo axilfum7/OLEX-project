@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { role_key } from 'src/decorators/roles.decorator';
+import { role_key } from 'src/users/decorator/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

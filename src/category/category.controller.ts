@@ -12,8 +12,8 @@ import {
 import { CategoryService } from './category.service';
 import { ApiOperation, ApiResponse, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { Role } from 'src/user/enum/roles.enum';
-import { RoleDec } from 'src/user/decorator/roles.decorator';
+import { Role } from 'src/users/enum/roles.enum';
+import { RoleDec } from 'src/users/decorator/roles.decorator';
 import { RolesGuard } from 'src/roles/roles.guard';
 
 @UseGuards(AuthGuard)
