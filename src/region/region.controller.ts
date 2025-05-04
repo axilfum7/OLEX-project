@@ -14,17 +14,18 @@ import { RegionService } from './region.service';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { RoleDec } from 'src/user/decorator/roles.decorator';
-import { Role } from 'src/user/enum/roles.enum';
-import { RolesGuard } from 'src/roles/roles.guard';
 
-@UseGuards(AuthGuard)
+import { RolesGuard } from 'src/roles/roles.guard';
+import { RoleDec } from 'src/users/decorator/roles.decorator';
+import { Role } from 'src/roles/roles.enum';
+
+// @UseGuards(AuthGuard)
 @Controller('region')
 export class RegionController {
   constructor(private readonly regionService: RegionService) {}
 
-  @RoleDec(Role.ADMIN)
-  @UseGuards(RolesGuard)
+  // @RoleDec(Role.ADMIN)
+  // @UseGuards(RolesGuard)
   @Post()
   create(@Body() createRegionDto: CreateRegionDto) {
     return this.regionService.create(createRegionDto);
@@ -75,7 +76,7 @@ export class RegionController {
     return this.regionService.findOne(+id);
   }
 
-  @RoleDec(Role.ADMIN, Role.SUPER_ADMIN)
+  @RoleDec(Role.ADMIN, Role.SUPERADMIN)
   @UseGuards(RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRegionDto: UpdateRegionDto) {

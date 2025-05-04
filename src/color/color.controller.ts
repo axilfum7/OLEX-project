@@ -14,9 +14,9 @@ import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { RoleDec } from 'src/user/decorator/roles.decorator';
-import { Role } from 'src/user/enum/roles.enum';
 import { RolesGuard } from 'src/roles/roles.guard';
+import { RoleDec } from 'src/users/decorator/roles.decorator';
+import { Role } from 'src/roles/roles.enum';
 
 @UseGuards(AuthGuard)
 @ApiTags('Color')
@@ -24,7 +24,7 @@ import { RolesGuard } from 'src/roles/roles.guard';
 export class ColorController {
   constructor(private readonly colorService: ColorService) {}
 
-  @RoleDec(Role.SUPER_ADMIN, Role.ADMIN)
+  @RoleDec(Role.ADMIN, Role.SUPERADMIN)
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() createColorDto: CreateColorDto) {
@@ -73,17 +73,17 @@ export class ColorController {
     return this.colorService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
-  @RoleDec(Role.ADMIN, Role.SUPER_ADMIN)
+  @RoleDec(Role.ADMIN, Role.SUPERADMIN)
   @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateColorDto: UpdateColorDto) {
     return this.colorService.update(+id, updateColorDto);
   }
 
-  @UseGuards(AuthGuard)
   @RoleDec(Role.ADMIN)
   @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.colorService.remove(+id);

@@ -17,7 +17,7 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true}));
-  SwaggerModule.setup( 'olx ', app, documentFactory);
+  SwaggerModule.setup( 'olx', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3000);
 }

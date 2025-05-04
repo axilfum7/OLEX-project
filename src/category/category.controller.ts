@@ -12,9 +12,9 @@ import {
 import { CategoryService } from './category.service';
 import { ApiOperation, ApiResponse, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { Role } from 'src/users/enum/roles.enum';
 import { RoleDec } from 'src/users/decorator/roles.decorator';
 import { RolesGuard } from 'src/roles/roles.guard';
+import { Role } from 'src/roles/roles.enum';
 
 @UseGuards(AuthGuard)
 @Controller('category')
@@ -90,7 +90,7 @@ export class CategoryController {
   }
 
   @Patch(':id')
-  @RoleDec(Role.SUPER_ADMIN, Role.ADMIN)
+  @RoleDec(Role.SUPERADMIN, Role.ADMIN)
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Update a specific category by ID' })
   @ApiResponse({ status: 200, description: 'Category successfully updated.' })
@@ -125,7 +125,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
-  @RoleDec(Role.SUPER_ADMIN)
+  @RoleDec(Role.SUPERADMIN,Role.ADMIN)
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Delete a category by ID' })
   @ApiResponse({ status: 200, description: 'Category successfully deleted.' })

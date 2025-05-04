@@ -21,9 +21,10 @@ export class MessageService {
 
       const message = await this.prisma.message.create({
         data: {
+          chatId:createMessageDto.chatId,
           text: createMessageDto.text,
           fromId: req['user'].id,
-          toId: createMessageDto.toId,
+          toId: createMessageDto.toId
         },
       });
 
@@ -32,15 +33,9 @@ export class MessageService {
           data: {
             fromId: req['user'].id,
             toId: createMessageDto.toId,
-            chatemessage: createMessageDto.text,
           },
         });
       }
-
-      await this.prisma.chat.update({
-        where: { id: chat.id },
-        data: { chatemessage: createMessageDto.text },
-      });
 
       return {
         success: true,

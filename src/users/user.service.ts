@@ -8,10 +8,10 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { RoleUser, userStatus } from '@prisma/client';
-import { Role } from './enum/roles.enum';
+import {  Role, userStatus } from '@prisma/client';
 import { MailService } from 'src/mail/mail.service';
 import { authenticator } from 'otplib';
+
 
 @Injectable()
 export class UserService {
@@ -65,7 +65,7 @@ export class UserService {
             data: {
               firstName: dto.firstName,
               lastName: dto.lastName,
-              role: dto.role as RoleUser,
+              role: dto.role,
               email: dto.email,
               password: hash,
               picture: dto.picture,
@@ -241,7 +241,7 @@ export class UserService {
             data: {
               firstName: dto.firstName,
               lastName: dto.lastName,
-              role: RoleUser['admin'],
+              role: Role['admin'],
               email: dto.email,
               password: hash,
               picture: dto.picture,
@@ -293,7 +293,7 @@ export class UserService {
         } else {
           return await this.prisma.user.update({
             where: { id: userId },
-            data: { role: Role.ADMIN },
+            data: { role: Role.ADMIN}
           });
         }
       }

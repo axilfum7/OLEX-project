@@ -11,7 +11,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { RoleUser, userStatus } from '@prisma/client';
+import { Role, userStatus } from '@prisma/client';
 
 @ApiTags('user')
 @Controller('user')
@@ -44,7 +44,7 @@ export class UserController {
         value: {
           firstName: 'Admin',
           lastName: 'User',
-          role: RoleUser['admin'],
+          role: Role.ADMIN,
           email: 'admin@example.com',
           password: 'AdminPassword123',
           picture: 'admin-picture.jpg',
@@ -73,7 +73,7 @@ export class UserController {
       type: 'object',
       properties: {
         otp: { type: 'string', example: 123456 },
-        email: { type: 'string', example: 'axilfum@gmail.com' },
+        email: { type: 'string', example: 'alex@gmail.com' },
       },
     },
   })
@@ -96,7 +96,7 @@ export class UserController {
     schema: {                   
       type: 'object',
       properties: {
-        email: { type: 'string', example: 'axilfum@gmail.com' },
+        email: { type: 'string', example: 'alex@gmail.com' },
         password: { type: 'string', example: 'StrongPassword_1' },
       },
     },

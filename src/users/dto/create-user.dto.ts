@@ -9,7 +9,9 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { Role } from '../enum/roles.enum';
+import {  Role } from '@prisma/client';
+// const Role = $Enums.Role;
+// import { Role } from 'src/roles/roles.enum';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -30,7 +32,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'User role',
-    example: 'admin',
+    example: 'USER',
   })
   @IsNotEmpty({ message: 'Role is required' })
   @IsEnum(Role, { message: 'Role must be a valid enum value' })
@@ -49,10 +51,6 @@ export class CreateUserDto {
     example: 'StrongPassword_1',
   })
   @IsNotEmpty({ message: 'Password is required' })
-  @Matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-    message:
-      'Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character',
-  })
   password: string;
 
   @ApiProperty({
